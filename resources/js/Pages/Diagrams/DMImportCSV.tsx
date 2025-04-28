@@ -88,9 +88,10 @@ export default function DMImportCSV() {
         router.post(route('diagrams.store.csv', { csvData }))
     }
 
-    const { flash } = usePage().props;
+    // @ts-ignore
+    const { flash } : FlashProps = usePage().props;
     console.log(flash);
-    
+
 
     return (
         <AuthenticatedLayout header='นำเข้าข้อมูลจากไฟล์ไดอะแกรม CSV'>
