@@ -1,44 +1,50 @@
-import PrimaryButton from '@/Components/PrimaryButton';
-import SecondaryButton from '@/Components/SecondaryButton';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
+import Authenticated from "@/Layouts/AuthenticatedLayout";
+import { Link } from "@inertiajs/react";
+import { useState } from "react";
 
-interface DiagramListProps {
-    diagramList: {
-        data: any[];
-        links: any[];
+interface sparePartListProps {
+        data : ListProps[];
+        links: {
+            total: number;
+        };
         meta: any;
-    };
+    
 }
 
 interface ListProps {
-    sku_code: string;
-    dm_type: string;
-    path_file: string;
+    serial: string;
+    skusp: string;
+    skuspname: string;
+    skuspunit: string;
+    pathfile_sp: string;
+    namefile_sp: string;
+    skufg: string;
+    skufgname: string;
+    modelfg : string;
+    pathfile_dm: string;
+    namefile_dm: string;
+    typedm: string;
+    pathfile_manual: string;
+    namefile_manual: string;
+    createon: string;
+    price: string;
 }
 
-export default function DmMain({ diagramList }: DiagramListProps) {
-    const [list, setList] = useState(diagramList.data);
-    const navagateForm = () => router.get(route('diagrams.create'));
+export default function SpMain({sparePartList} : { sparePartList: sparePartListProps[] }) {
+    const [list, setList] = useState(sparePartList.data);
     return (
-        <AuthenticatedLayout header={'รายการ Diagram'}>
-            <Head title='รายการ Diagram'/>
+        <Authenticated header={'รายการ Diagram'}>
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-xl font-semibold">รายการ Diagram ทั้งหมด</h2>
-                                <div className='flex justify-start items-center gap-3'>
-                                
-                                    <PrimaryButton onClick={navagateForm}>
-                                        เพิ่มรายการใหม่ ที่ละ 1 รายการ
-                                    </PrimaryButton>
-                                    <SecondaryButton onClick={() => router.get(route('diagrams.create.csv'))}>
-                                        นำเข้าข้อมูลจากไฟล์ CSV
-                                    </SecondaryButton>
-                                </div>
+                                <Link 
+                                    href={route('diagrams.create')}
+                                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+                                    เพิ่มรายการใหม่
+                                </Link>
                             </div>
 
                             <div className="overflow-x-auto">
@@ -64,23 +70,29 @@ export default function DmMain({ diagramList }: DiagramListProps) {
                                             list.map((item: ListProps, index: number) => (
                                                 <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                        {item.sku_code}
+                                                        {item.skusp}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                            {item.dm_type}
+                                                            {item.typedm}
                                                         </span>
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        <span className="truncate block max-w-xs" title={item.path_file}>
-                                                            {item.path_file}
+                                                        <span className="truncate block max-w-xs" title={item.pathfile_dm}>
+                                                            {item.pathfile_dm}
                                                         </span>
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                         <div className="flex space-x-2">
-                                                            <SecondaryButton>
+                                                            <button className="text-blue-600 hover:text-blue-900">
                                                                 แก้ไข
-                                                            </SecondaryButton>
+                                                            </button>
+                                                            <button className="text-red-600 hover:text-red-900">
+                                                                ลบ
+                                                            </button>
+                                                            <a href={item.pathfile_manual} target="_blank" className="text-green-600 hover:text-green-900">
+                                                                ดาวน์โหลด
+                                                            </a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -109,7 +121,10 @@ export default function DmMain({ diagramList }: DiagramListProps) {
                                 <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                                     <div>
                                         <p className="text-sm text-gray-700">
-                                            แสดง <span className="font-medium">1</span> ถึง <span className="font-medium">{list.length}</span> จาก <span className="font-medium">{diagramList.meta?.total || list.length}</span> รายการ
+                                            แสดง 
+                                            <span className="font-medium">1</span> ถึง <span className="font-medium">{sparePartList.length}</span> จาก <span className="font-medium">
+                                                {sparePartList.meta?.total || sparePartList.length}
+                                                </span> รายการ
                                         </p>
                                     </div>
                                     <div>
@@ -143,6 +158,6 @@ export default function DmMain({ diagramList }: DiagramListProps) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
-    );
+        </Authenticated>
+    )
 }

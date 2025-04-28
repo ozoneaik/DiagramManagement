@@ -12,6 +12,8 @@ export default function DmForm() {
         sku_code: '',
         dm_type: 'DM01',
         path_file: '',
+        layout : 'ด้านหน้า',
+        url : '',
     });
 
     const [previewUrl, setPreviewUrl] = useState<string>('');
@@ -26,7 +28,7 @@ export default function DmForm() {
         }
     }, [data.sku_code, data.dm_type]);
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, labelName: "sku_code" | "dm_type" | "path_file") => {
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, labelName: "sku_code" | "dm_type" | "path_file" | "layout" | "url") => {
         const value = e.target.value;
         setData(labelName, value);
     }
@@ -42,6 +44,8 @@ export default function DmForm() {
                     sku_code: '',
                     dm_type: 'DM01',
                     path_file: '',
+                    layout: 'ด้านหน้า',
+                    url: '',
                 });
                 setPreviewUrl('');
             },
@@ -60,18 +64,18 @@ export default function DmForm() {
                                 <div className="md:w-1/2">
                                     <div className="border border-gray-300 rounded-lg p-4 h-full flex flex-col items-center justify-center">
                                         <h2 className="text-lg font-semibold mb-4">ตัวอย่างรูปภาพ</h2>
-                                        {previewUrl ? (
+                                        {data.url ? (
                                             <div className="w-full flex flex-col items-center">
                                                 <div className="relative w-full max-w-md aspect-video bg-gray-100 rounded overflow-hidden">
                                                     <img 
-                                                        src={previewUrl}
+                                                        src={data.url}
                                                         alt="Preview DM"
                                                         className="w-full h-full object-contain"
                                                     />
                                                 </div>
                                                 <div className="mt-4 w-full">
                                                     <p className="text-sm font-medium text-gray-700">URL รูปภาพ:</p>
-                                                    <p className="text-sm text-gray-500 break-all mt-1">{previewUrl}</p>
+                                                    <p className="text-sm text-gray-500 break-all mt-1">{data.url}</p>
                                                 </div>
                                             </div>
                                         ) : (
@@ -111,6 +115,28 @@ export default function DmForm() {
                                                 <option value="DM05">DM05</option>
                                             </select>
                                             <InputError className="mt-2" message={errors.dm_type} />
+                                        </div>
+                                        <div>
+                                            <InputLabel htmlFor="layout" value="เลเยอร์ (ด้านหน้า,ด้านหลัง)" />
+                                            <TextInput
+                                                id="layout" className="mt-1 block w-full"
+                                                required value={data.layout}
+                                                onChange={(e) => handleOnChange(e,'layout')}
+                                                isFocused autoComplete="layout"
+                                                placeholder="ระบุเลเยอร์"
+                                            />
+                                            <InputError className="mt-2" message={errors.layout} />
+                                        </div>
+                                        <div>
+                                            <InputLabel htmlFor="url" value="URL รูปภาพ" />
+                                            <TextInput
+                                                id="url" className="mt-1 block w-full"
+                                                required value={data.url}
+                                                onChange={(e) => handleOnChange(e,'url')}
+                                                isFocused autoComplete="url"
+                                                placeholder="ระบุ URL รูปภาพ"
+                                            />
+                                            <InputError className="mt-2" message={errors.url} />
                                         </div>
                                         <div className="pt-4 flex items-center gap-4">
                                             <PrimaryButton disabled={processing || !data.sku_code}>บันทึก</PrimaryButton>

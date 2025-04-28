@@ -24,6 +24,8 @@ class DiagramListRequest extends FormRequest
         return [
             'sku_code' => 'required|string|max:255',
             'dm_type' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
+            'layout' => 'required|string|max:255',
         ];
     }
 
@@ -32,7 +34,8 @@ class DiagramListRequest extends FormRequest
         return [
             'sku_code.required' => 'SKU Code is required.',
             'dm_type.required' => 'DM Type is required.',
-    
+            'url.required' => 'URL is required.',
+            'layout.required' => 'Layout is required.',
         ];
     }
 }

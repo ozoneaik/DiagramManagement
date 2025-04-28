@@ -40,7 +40,15 @@ export default function Authenticated({
                                     href={route('diagrams.index')}
                                     active={route().current('diagrams.index')}
                                 >
-                                    รายการ Diagram
+                                    รายการไดอะแกรม Diagram List
+                                </NavLink>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('spareparts.index')}
+                                    active={route().current('spareparts.index')}
+                                >
+                                    รายการอะไหล่ SparePart List
                                 </NavLink>
                             </div>
                         </div>

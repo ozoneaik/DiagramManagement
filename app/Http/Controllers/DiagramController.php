@@ -24,12 +24,16 @@ class DiagramController extends Controller
     public function store(DiagramListRequest $request)
     {
         try {
+            
             // ตรวจสอบข้อมูลที่ส่งมาจากฟอร์ม
             $validatedData = $request->validated();
+            dd($validatedData);
             $test = DiagramList::query()->first();
             // ตรวจสอบว่า SKU Code นี้มีอยู่แล้วหรือไม่
             $existingDiagram = DiagramList::query()->where('sku_code', $validatedData['sku_code'])
             ->where('dm_type', $validatedData['dm_type'])
+            ->where('path_file', $validatedData['url'])
+            ->where('layout', $validatedData['layout'])
             ->first();
             
         
@@ -43,8 +47,9 @@ class DiagramController extends Controller
             $diagramList = new DiagramList();
             $diagramList->sku_code = $validatedData['sku_code'];
             $diagramList->dm_type = $validatedData['dm_type'];
-            $path_file = "https://images.pumpkin.tools/SKUS/DM/Diagrams-".$validatedData['sku_code']."-".$validatedData['dm_type'].".jpg";
+            $path_file = $validatedData['url'];
             $diagramList->path_file = $path_file;
+            $diagramList->layout = $validatedData['layout'];
 
             // บันทึกข้อมูล
             $diagramList->save();
@@ -75,5 +80,27 @@ class DiagramController extends Controller
                 ->withInput()
                 ->withErrors(['general' => 'เกิดข้อผิดพลาดในระบบ กรุณาลองใหม่อีกครั้งหรือติดต่อผู้ดูแลระบบ']);
         }
+    }
+
+
+    public function createCsv()
+    {
+        return Inertia::render('Diagrams/DMImportCSV');
+    }
+
+    public function storeCsv(Request $request){
+        $request->validate([
+            'csvData' => 'required|array',
+        ]);
+        $csvData = $request->csvData;
+        foreach ($csvData as $key => $value) {
+            DiagramList::query()->create([
+                'sku_code' => $value['sku_code'],
+                'dm_type' => $value['dm_type'],
+                'path_file' => $value['path_file'],
+                'layer' => $value['layer'],
+            ]);
+        }
+        return redirect()->back()->with('success', 'เพิ่มรายการ Diagram สำเร็จแล้ว');
     }
 }

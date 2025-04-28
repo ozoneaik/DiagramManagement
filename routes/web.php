@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DiagramController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SparePartController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,10 +28,16 @@ Route::middleware('auth')->group(function () {
     Route::prefix('diagrams')->group(function () {
         Route::get('/', [DiagramController::class, 'index'])->name('diagrams.index');
         Route::get('/create', [DiagramController::class, 'create'])->name('diagrams.create');
+        Route::get('/create-csv', [DiagramController::class, 'createCsv'])->name('diagrams.create.csv');
+        Route::post('/create-csv', [DiagramController::class, 'storeCsv'])->name('diagrams.store.csv');
         Route::post('/', [DiagramController::class, 'store'])->name('diagrams.store');
         Route::get('/{diagram}', [DiagramController::class, 'show'])->name('diagrams.show');
         Route::put('/{diagram}', [DiagramController::class, 'update'])->name('diagrams.update');
         Route::delete('/{diagram}', [DiagramController::class, 'destroy'])->name('diagrams.destroy');
+    });
+
+    Route::prefix('spareparts')->group(function(){
+        Route::get('/', [SparePartController::class, 'index'])->name('spareparts.index');
     });
 });
 
