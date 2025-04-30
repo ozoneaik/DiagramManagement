@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.th-class {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+
+.td-class {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-500;
+}
+
+.td-class-medium {
+    @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900;
+}
+
+.td-class-rounded-full {
+    @apply px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800;
+}

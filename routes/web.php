@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DiagramController;
+use App\Http\Controllers\DiagramManualController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SparePartController;
 use Illuminate\Foundation\Application;
@@ -34,6 +35,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/{diagram}', [DiagramController::class, 'show'])->name('diagrams.show');
         Route::put('/{diagram}', [DiagramController::class, 'update'])->name('diagrams.update');
         Route::delete('/{diagram}', [DiagramController::class, 'destroy'])->name('diagrams.destroy');
+        Route::prefix('manual')->group(function(){
+            Route::get('/list', [DiagramManualController::class, 'index'])->name('diagrams.manual.index');
+            Route::get('/create', [DiagramManualController::class, 'create'])->name('diagrams.manual.create');
+            Route::post('/create', [DiagramManualController::class, 'store'])->name('diagrams.manual.store');
+            Route::get('/create-csv', [DiagramManualController::class, 'createCsv'])->name('diagrams.create.csv');
+        });
     });
 
     Route::prefix('spareparts')->group(function(){
