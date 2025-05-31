@@ -5,14 +5,15 @@ import TextInput from "@/Components/TextInput";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Transition } from "@headlessui/react";
 import { useForm } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function DmForm() {
     const { data, setData, post, processing, errors, recentlySuccessful } = useForm({
         sku_code: '',
         dm_type: 'DM01',
         path_file: '',
-        layout : 'ด้านหน้า',
+        layer : 'ด้านหน้า',
+        fac_model : '',
         url : '',
     });
 
@@ -21,31 +22,34 @@ export default function DmForm() {
     // สร้าง URL ตัวอย่างเมื่อมีการเปลี่ยนแปลงข้อมูล
     useEffect(() => {
         if (data.sku_code) {
-            const newUrl = `https://images.pumpkin.tools/SKUS/DM/Diagrams-${data.sku_code}-${data.dm_type}.jpg`;
-            setPreviewUrl(newUrl);
+            const newUrl = `https://images.pumpkin.tools/SKUS/DM/new/${data.sku_code}-${data.fac_model}-${data.dm_type}.jpg`;
+            console.log(newUrl);
+            setData("url",newUrl);
         } else {
             setPreviewUrl('');
         }
-    }, [data.sku_code, data.dm_type]);
+    }, [data.sku_code, data.dm_type,data.fac_model]);
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, labelName: "sku_code" | "dm_type" | "path_file" | "layout" | "url") => {
-        const value = e.target.value;
-        setData(labelName, value);
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
+        const {name, value} = e.target;
+        // setData(name, value);
+        setData(name as keyof typeof data, value);
     }
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const finalPathFile = `https://images.pumpkin.tools/SKUS/DM/Diagrams-${data.sku_code}-${data.dm_type}.jpg`;
+        const finalPathFile = `https://images.pumpkin.tools/SKUS/DM/new/${data.sku_code}-${data.fac_model}-${data.dm_type}.jpg`;
         setData('path_file', finalPathFile);
-        
         post(route('diagrams.store'), {
             onSuccess: () => {
                 setData({
                     sku_code: '',
                     dm_type: 'DM01',
                     path_file: '',
-                    layout: 'ด้านหน้า',
+                    layer: 'ด้านหน้า',
                     url: '',
+                    fac_model : '',
+                    finalPathFile : finalPathFile,
                 });
                 setPreviewUrl('');
             },
@@ -67,7 +71,7 @@ export default function DmForm() {
                                         {data.url ? (
                                             <div className="w-full flex flex-col items-center">
                                                 <div className="relative w-full max-w-md aspect-video bg-gray-100 rounded overflow-hidden">
-                                                    <img 
+                                                    <img
                                                         src={data.url}
                                                         alt="Preview DM"
                                                         className="w-full h-full object-contain"
@@ -93,8 +97,8 @@ export default function DmForm() {
                                             <InputLabel htmlFor="sku_code" value="รหัสสินค้า" />
                                             <TextInput
                                                 id="sku_code" className="mt-1 block w-full"
-                                                required value={data.sku_code}
-                                                onChange={(e) => handleOnChange(e,'sku_code')}
+                                                required value={data.sku_code} name='sku_code'
+                                                onChange={(e) => handleOnChange(e)}
                                                 isFocused autoComplete="name"
                                                 placeholder="ระบุรหัสสินค้า"
                                             />
@@ -103,9 +107,9 @@ export default function DmForm() {
                                         <div>
                                             <InputLabel htmlFor="type_dm" value="ประเภท DM" />
                                             <select
-                                                disabled={!data.sku_code}
-                                                id="type_dm" value={data.dm_type}  
-                                                onChange={(e) => handleOnChange(e,'dm_type')}
+                                                disabled={!data.sku_code} name='type_dm'
+                                                id="type_dm" value={data.dm_type}
+                                                onChange={(e) => handleOnChange(e)}
                                                 className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                             >
                                                 <option value="DM01">DM01</option>
@@ -117,22 +121,33 @@ export default function DmForm() {
                                             <InputError className="mt-2" message={errors.dm_type} />
                                         </div>
                                         <div>
-                                            <InputLabel htmlFor="layout" value="เลเยอร์ (ด้านหน้า,ด้านหลัง)" />
+                                            <InputLabel htmlFor="layer" value="เลเยอร์ (ด้านหน้า,ด้านหลัง)" />
                                             <TextInput
-                                                id="layout" className="mt-1 block w-full"
-                                                required value={data.layout}
-                                                onChange={(e) => handleOnChange(e,'layout')}
-                                                isFocused autoComplete="layout"
+                                                id="layer" className="mt-1 block w-full"
+                                                required value={data.layer}
+                                                onChange={(e) => handleOnChange(e)}
+                                                isFocused autoComplete="layer" name='layer'
                                                 placeholder="ระบุเลเยอร์"
                                             />
-                                            <InputError className="mt-2" message={errors.layout} />
+                                            <InputError className="mt-2" message={errors.layer} />
+                                        </div>
+                                        <div>
+                                            <InputLabel htmlFor="fac_model" value="fac model" />
+                                            <TextInput
+                                                id="fac_model" className="mt-1 block w-full"
+                                                required value={data.fac_model}
+                                                onChange={(e) => handleOnChange(e)}
+                                                isFocused autoComplete="fac_model" name='fac_model'
+                                                placeholder="ระบุ model"
+                                            />
+                                            <InputError className="mt-2" message={errors.fac_model} />
                                         </div>
                                         <div>
                                             <InputLabel htmlFor="url" value="URL รูปภาพ" />
                                             <TextInput
                                                 id="url" className="mt-1 block w-full"
-                                                required value={data.url}
-                                                onChange={(e) => handleOnChange(e,'url')}
+                                                required value={data.url} name='url'
+                                                onChange={(e) => handleOnChange(e)}
                                                 isFocused autoComplete="url"
                                                 placeholder="ระบุ URL รูปภาพ"
                                             />

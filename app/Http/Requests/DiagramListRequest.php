@@ -25,7 +25,8 @@ class DiagramListRequest extends FormRequest
             'sku_code' => 'required|string|max:255',
             'dm_type' => 'required|string|max:255',
             'url' => 'required|string|max:255',
-            'layout' => 'required|string|max:255',
+            'layer' => 'required|string|max:255',
+            'fac_model' => 'required|string|max:255',
         ];
     }
 
@@ -35,7 +36,8 @@ class DiagramListRequest extends FormRequest
             'sku_code.required' => 'SKU Code is required.',
             'dm_type.required' => 'DM Type is required.',
             'url.required' => 'URL is required.',
-            'layout.required' => 'Layout is required.',
+            'layer.required' => 'layer is required.',
+            'fac_model.required' => 'Fac Model is required.',
         ];
     }
 }

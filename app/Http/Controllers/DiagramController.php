@@ -24,9 +24,9 @@ class DiagramController extends Controller
     public function store(DiagramListRequest $request)
     {
         try {
-            
+
             // ตรวจสอบข้อมูลที่ส่งมาจากฟอร์ม
-            $validatedData = $request->validated();
+            $validatedData = $request->all();
             dd($validatedData);
             $test = DiagramList::query()->first();
             // ตรวจสอบว่า SKU Code นี้มีอยู่แล้วหรือไม่
@@ -35,8 +35,8 @@ class DiagramController extends Controller
             ->where('path_file', $validatedData['url'])
             ->where('layout', $validatedData['layout'])
             ->first();
-            
-        
+
+
             if ($existingDiagram) {
                 return redirect()->back()
                     ->withInput()
