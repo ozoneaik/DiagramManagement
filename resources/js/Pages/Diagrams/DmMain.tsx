@@ -16,6 +16,8 @@ interface ListProps {
     sku_code: string;
     dm_type: string;
     path_file: string;
+    layer : string;
+    fac_model : string;
 }
 
 export default function DmMain({ diagramList }: DiagramListProps) {
@@ -45,6 +47,9 @@ export default function DmMain({ diagramList }: DiagramListProps) {
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
+                                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                รูปสินค้า
+                                            </th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 รหัสสินค้า
                                             </th>
@@ -52,7 +57,7 @@ export default function DmMain({ diagramList }: DiagramListProps) {
                                                 ประเภท DM
                                             </th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                ที่อยู่ไฟล์
+                                                layer
                                             </th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 จัดการ
@@ -64,7 +69,14 @@ export default function DmMain({ diagramList }: DiagramListProps) {
                                             list.map((item: ListProps, index: number) => (
                                                 <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                        {item.sku_code}
+                                                        <a href={item.path_file} target='_blank'>
+                                                            <img src={item.path_file} width={50} alt="" />
+                                                        </a>
+                                                    </td>
+                                                    <td className="px-6 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                        รหัสสินค้า : {item.sku_code}
+                                                        <br />
+                                                        รหัสโมเดล : {`(${item.fac_model})`}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
@@ -73,7 +85,7 @@ export default function DmMain({ diagramList }: DiagramListProps) {
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         <span className="truncate block max-w-xs" title={item.path_file}>
-                                                            {item.path_file}
+                                                            {item.layer}
                                                         </span>
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

@@ -107,10 +107,10 @@ export default function DmForm() {
                                             <InputError className="mt-2" message={errors.sku_code} />
                                         </div>
                                         <div>
-                                            <InputLabel htmlFor="type_dm" value="ประเภท DM" />
+                                            <InputLabel htmlFor="dm_type" value="ประเภท DM" />
                                             <select
-                                                disabled={!data.sku_code} name='type_dm'
-                                                id="type_dm" value={data.dm_type}
+                                                disabled={!data.sku_code} name='dm_type'
+                                                id="dm_type" value={data.dm_type}
                                                 onChange={(e) => handleOnChange(e)}
                                                 className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                             >
