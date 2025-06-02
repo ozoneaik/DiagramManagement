@@ -27,6 +27,7 @@ class DiagramController extends Controller
 
             // ตรวจสอบข้อมูลที่ส่งมาจากฟอร์ม
             $validatedData = $request->all();
+
     
             $test = DiagramList::query()->first();
             // ตรวจสอบว่า SKU Code นี้มีอยู่แล้วหรือไม่

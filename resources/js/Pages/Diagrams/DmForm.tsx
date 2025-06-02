@@ -47,7 +47,7 @@ export default function DmForm() {
                     sku_code: '',
                     dm_type: 'DM01',
                     path_file: '',
-                    layer: 'ด้านหน้า',
+                    layer: 'รูปที่ 1',
                     url: '',
                     fac_model : '',
                     finalPathFile : finalPathFile,
