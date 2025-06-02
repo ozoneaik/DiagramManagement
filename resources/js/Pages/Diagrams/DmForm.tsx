@@ -4,7 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Transition } from "@headlessui/react";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 
 export default function DmForm() {
@@ -12,9 +12,10 @@ export default function DmForm() {
         sku_code: '',
         dm_type: 'DM01',
         path_file: '',
-        layer : 'ด้านหน้า',
+        layer : 'รูปที่ 1',
         fac_model : '',
         url : '',
+        finalPathFile : '',
     });
 
     const [previewUrl, setPreviewUrl] = useState<string>('');
@@ -59,6 +60,7 @@ export default function DmForm() {
 
     return (
         <Authenticated header={'Diagram Form'}>
+            <Head title="ฟอร์ม 📃"/>
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">

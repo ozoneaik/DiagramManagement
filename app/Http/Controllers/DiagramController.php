@@ -27,13 +27,13 @@ class DiagramController extends Controller
 
             // ตรวจสอบข้อมูลที่ส่งมาจากฟอร์ม
             $validatedData = $request->all();
-            dd($validatedData);
+    
             $test = DiagramList::query()->first();
             // ตรวจสอบว่า SKU Code นี้มีอยู่แล้วหรือไม่
             $existingDiagram = DiagramList::query()->where('sku_code', $validatedData['sku_code'])
             ->where('dm_type', $validatedData['dm_type'])
             ->where('path_file', $validatedData['url'])
-            ->where('layout', $validatedData['layout'])
+            ->where('layer', $validatedData['layer'])
             ->first();
 
 
@@ -47,9 +47,8 @@ class DiagramController extends Controller
             $diagramList = new DiagramList();
             $diagramList->sku_code = $validatedData['sku_code'];
             $diagramList->dm_type = $validatedData['dm_type'];
-            $path_file = $validatedData['url'];
-            $diagramList->path_file = $path_file;
-            $diagramList->layout = $validatedData['layout'];
+            $diagramList->path_file = $validatedData['url'];
+            $diagramList->layer = $validatedData['layer'];
 
             // บันทึกข้อมูล
             $diagramList->save();

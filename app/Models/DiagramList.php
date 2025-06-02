@@ -13,6 +13,9 @@ class DiagramList extends Model
         'sku_code',
         'dm_type',
         'path_file',
-        'layer'
+        'layer',
+        'fac_model'
     ];
+
+    public $timestamps = false;
 }
