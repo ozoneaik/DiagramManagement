@@ -12,7 +12,7 @@ class DiagramController extends Controller
 {
     public function index()
     {
-        $diagramList = DiagramList::paginate(100);
+        $diagramList = DiagramList::query()->orderBy('id', 'desc')->paginate(200);
         return Inertia::render('Diagrams/DmMain', [
             'diagramList' => $diagramList,
         ]);
@@ -49,6 +49,7 @@ class DiagramController extends Controller
             $diagramList->dm_type = $validatedData['dm_type'];
             $diagramList->path_file = $validatedData['url'];
             $diagramList->layer = $validatedData['layer'];
+            $diagramList->fac_model = $validatedData['fac_model'] ?? null;
 
             // บันทึกข้อมูล
             $diagramList->save();
